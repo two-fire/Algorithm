@@ -1,0 +1,43 @@
+//求n-皇后问题的全部可行解，使之在求得第一个可行解后算法终止
+#include<iostream>
+#define Max_n 1000
+using namespace std;
+int num = 0;
+bool Place(int k, int i, int *x){ //判断当前第k行皇后是否可以放在第i列位置
+	for(int j = 0; j < k; j++){
+		if(x[j] ==  i || abs(x[j] - i) == abs(k - j))
+			return false;
+	}
+	return true;
+}
+void NQueens(int k, int n, int *x){ //为第k行皇后选择可放置的列
+	if(num == 1) return;
+	for(int i = 0; i < n; i++){
+		if(Place(k, i, x)){
+			x[k] = i;  //第k行放在第i列
+			if(k == n-1){
+				for(i = 0; i < n; i++){
+					cout << x[i] << " ";
+				}
+				cout << endl;
+				num = 1;
+			}
+			else{
+				NQueens(k+1, n, x); //深度优先进入下一层
+			}
+		}
+	}
+}
+
+int main(){
+	int n;
+	int *x = new int[Max_n];
+	cout << "n皇后问题" << endl;
+	cout << "请输入n值：";
+	cin >> n;
+	cout << "得到的一个可行解为：" << endl;
+	NQueens(0, n, x);
+	delete []x;
+	return 0;
+}
+
