@@ -1,0 +1,93 @@
+/*题目
+4、切分数组
+通过的用户数89
+尝试过的用户数705
+用户总通过次数89
+用户总提交次数2662
+题目难度Hard
+给定一个整数数组 nums ，小李想将 nums 切割成若干个非空子数组，使得每个子数组最左边的数和最右边的数的最大公约数大于 1 。为了减少他的工作量，请求出最少可以切成多少个子数组。
+
+示例 1：
+
+输入：nums = [2,3,3,2,3,3]
+
+输出：2
+
+解释：最优切割为 [2,3,3,2] 和 [3,3] 。第一个子数组头尾数字的最大公约数为 2 ，第二个子数组头尾数字的最大公约数为 3 。
+
+示例 2：
+
+输入：nums = [2,3,5,7]
+
+输出：4
+
+解释：只有一种可行的切割：[2], [3], [5], [7]
+
+限制：
+
+1 <= nums.length <= 10^5
+2 <= nums[i] <= 10^6 */
+
+代码
+#include<iostream>
+#include<vector>
+using namespace std;
+ int splitArray(vector<int>& nums) {
+        int i=0,j=nums.size()-1;
+        int min=10000;
+        for(;i<nums.size();i++){
+            int s=0;  //s存每一次查找时的最少分组数
+            //每次将num数组分成左右两块
+            splitArray(nums, 0,i-1,s); //i的左边进行查找
+            
+            splitArray(nums, i,j,s);  
+            
+            if(s<min) min=s; 
+        }
+        return min;
+    }
+    void splitArray(vector<int>& nums, int i,int j,int &s) {
+        if(i>j) return ; 
+        else if(i == j){ 
+            s++; 
+            return;
+        }
+        while(i!=j){
+            if(measure(nums[i],nums[j])>1){
+                break;
+            } 
+            else{
+                j--;
+            }
+        }
+        s++;
+        i=j+1;
+        j=nums.size()-1;
+        splitArray(nums, i,j,s);
+    }
+    int measure(int x, int y)  //求两个数的公约数
+    {	
+        int z = y;
+        while(x%y!=0)
+        {
+            z = x%y;
+            x = y;
+            y = z;	
+        }
+        return z;
+    }
+
+int main(){
+	int a[100],n;
+	cout << "输入数组的个数:";
+	cin >> n;
+	cout << "输入数组:" ;
+	for(int i = 0; i < n; i++){
+		cin >> a[i];
+	}
+	vector<int> nums(a,a+n);
+	cout << splitArray( nums) <<endl;
+
+	return 0;
+}
+```
