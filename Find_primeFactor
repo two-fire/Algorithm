@@ -1,0 +1,33 @@
+//e.g 12的素因子就是 2, 3
+#include<iostream>
+#include<cmath>
+using namespace std;
+void primeFactor(int n){
+	bool c1 = false, c2 = false;
+			//因为素因子没有重复的，所以设置判断位
+	while(n % 2 == 0){ 
+		c1 = true;
+		n = n / 2;
+	}
+	if(c1 == true)
+		cout << 2 << " ";
+	for (int i = 3; i <= sqrt(n*1.0); i+=2)
+		     //枚举从3到sqrt(n*1.0)的所有奇数
+	{
+		while(n % i == 0){
+			c2 = true;
+			n = n / i;
+		}
+		if(c2 == true)
+			cout << i << " ";
+	}
+	if(n > 2)  //防止n本身就是素数
+		cout << n <<endl;
+}
+int main(){
+	int n;
+	cout << "输入一个数：";
+	cin >> n;
+	primeFactor(n);
+	return 0;
+}
